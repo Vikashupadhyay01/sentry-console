@@ -128,8 +128,9 @@ async function handleDomainScan(url) {
     });
 
     if (!res.ok) {
-      throw new Error(`Backend scan failed (${res.status}). Ensure backend server is running on ${BACKEND_URL}`);
-    }
+      let msg = `Scan failed (${res.status}).`;
+      try { const j = await res.json(); if (j.error) msg = j.error; } catch {}
+      throw new Error(msg);    }
 
     const data = await res.json();
     showLoading(false);
