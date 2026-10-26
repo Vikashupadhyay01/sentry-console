@@ -11,7 +11,7 @@ import { exportPdfReport } from './modules/pdf_report_generator.js?v=1.0.1';
 import { loadAnalysisData, clearAnalysisData } from './modules/storage.js?v=1.0.1';
 
 const $ = (id) => document.getElementById(id);
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = (['localhost','127.0.0.1'].includes(location.hostname) && location.port !== '3001') ? 'http://localhost:3001' : '';
 
 let analysisData = null;
 
