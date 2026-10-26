@@ -35,7 +35,7 @@ let state = {
 };
 
 const $ = (id) => document.getElementById(id);
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = (['localhost','127.0.0.1'].includes(location.hostname) && location.port !== '3001') ? 'http://localhost:3001' : '';
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
