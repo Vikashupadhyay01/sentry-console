@@ -17,7 +17,7 @@ import { processIocs } from './modules/ioc_extractor.js';
 import { saveAnalysisData, saveAnalysisPayload } from './modules/storage.js';
 
 const $ = (id) => document.getElementById(id);
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = (['localhost','127.0.0.1'].includes(location.hostname) && location.port !== '3001') ? 'http://localhost:3001' : '';
 
 export function initAnalyzePage() {
   console.log('[Sentry Analyze] Wiring up Analyze Hub');
