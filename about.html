@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About &amp; Architecture — Sentry Console</title>
+  <meta name="description" content="Learn about Sentry Console architecture, heuristic detection methodology, client-side privacy rationale, and technical build story." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+
+<!-- ═══════════════════════ HEADER / NAVBAR ═══════════════════════ -->
+<!-- ═══════════════════════ TRUST ANNOUNCEMENT BANNER ═══════════════════════ -->
+<div id="trust-announcement-bar" class="trust-announcement-bar" role="region" aria-label="Privacy Guarantee">
+  <div class="trust-announcement-content">
+    <span class="trust-announcement-tag">100% Client-Side Privacy</span>
+    <span>Packet captures and evidence files never leave your browser memory.</span>
+    <a href="about.html#privacy" class="trust-announcement-link">
+      See how zero-trust privacy works →
+    </a>
+  </div>
+  <button id="trust-announcement-close" class="trust-announcement-close" aria-label="Dismiss privacy announcement">✕</button>
+</div>
+
+<!-- ═══════════════════════ HEADER / MEGA-NAVBAR ═══════════════════════ -->
+<header id="app-header">
+  <div class="header-logo">
+    <a href="index.html" class="logo-link" aria-label="Sentry Console Home">
+      <div class="logo-icon">⬡</div>
+      <div>
+        <div class="logo-text">SENTRY CONSOLE</div>
+        <div class="logo-sub">Security &amp; Threat Analysis Platform</div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="main-nav" aria-label="Main Navigation">
+    
+    <!-- Product Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Product <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-product">
+          
+          <div class="mega-col">
+            <div class="mega-col-title"><span>📡</span> Analysis Modules</div>
+            <div class="mega-item-list">
+              <a href="analyze.html?mode=pcap" class="mega-item">
+                <div class="mega-item-icon">📡</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Network / PCAP Capture Scanner</div>
+                  <div class="mega-item-desc">Detect port scans, SYN floods, &amp; ARP spoofing.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=pdf" class="mega-item">
+                <div class="mega-item-icon">📄</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Document Exploit Detector</div>
+                  <div class="mega-item-desc">Parse /OpenAction &amp; embedded JavaScript.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=eml" class="mega-item">
+                <div class="mega-item-icon">✉️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Email Phishing &amp; Header Analyzer</div>
+                  <div class="mega-item-desc">Inspect MIME structure &amp; SPF/DMARC.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=img" class="mega-item">
+                <div class="mega-item-icon">🖼️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Image Steganography Inspector</div>
+                  <div class="mega-item-desc">Extract EXIF metadata &amp; EOF payloads.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=doc" class="mega-item">
+                <div class="mega-item-icon">💼</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Office Document Macro Auditor</div>
+                  <div class="mega-item-desc">Scan .docx &amp; .xlsx for VBA macros.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=domain" class="mega-item">
+                <div class="mega-item-icon">🌐</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Website &amp; Domain Auditor</div>
+                  <div class="mega-item-desc">Audit TLS certificates &amp; security headers.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-col-title"><span>⚡</span> Capabilities</div>
+            <div class="mega-item-list">
+              <a href="docs.html#scoring" class="mega-item">
+                <div class="mega-item-icon">📊</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Universal Security Scoring</div>
+                  <div class="mega-item-desc">Unified 0–100 risk score based on findings.</div>
+                </div>
+              </a>
+              <a href="docs.html#ioc" class="mega-item">
+                <div class="mega-item-icon">🎯</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Automated IOC Extraction</div>
+                  <div class="mega-item-desc">Extract IPs, domain names, &amp; hashes.</div>
+                </div>
+              </a>
+              <a href="docs.html#risk" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Heuristic Risk Classification</div>
+                  <div class="mega-item-desc">CRITICAL, HIGH, MEDIUM, &amp; LOW tags.</div>
+                </div>
+              </a>
+              <a href="docs.html#reports" class="mega-item">
+                <div class="mega-item-icon">📋</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Report Generation</div>
+                  <div class="mega-item-desc">Download forensic summary reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-promo-card">
+              <div>
+                <div class="mega-promo-tag">Sentry Console Platform</div>
+                <div class="mega-promo-heading">Zero-Trust Local Forensics</div>
+                <div class="mega-promo-text">
+                  Every byte of your packet captures &amp; evidence files is parsed client-side using pure Web APIs. Zero cloud uploads.
+                </div>
+              </div>
+              <a href="docs.html" class="mega-promo-link">See how detection works →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Solutions Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Solutions <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-solutions">
+          <div class="mega-col">
+            <div class="mega-col-title">By Role &amp; Workflow</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-soc" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For SOC Teams</div>
+                  <div class="mega-item-desc">Rapid initial triage of suspicious captures &amp; attachments.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-ir" class="mega-item">
+                <div class="mega-item-icon">🚨</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Incident Responders</div>
+                  <div class="mega-item-desc">Extract indicators of compromise &amp; generate PDF reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-col-title">&nbsp;</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-researchers" class="mega-item">
+                <div class="mega-item-icon">🔬</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Students &amp; Researchers</div>
+                  <div class="mega-item-desc">Learn binary packet structures &amp; steganography analysis.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-sysadmins" class="mega-item">
+                <div class="mega-item-icon">💻</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For IT &amp; SysAdmins</div>
+                  <div class="mega-item-desc">Audit website TLS security &amp; DNS SPF/DMARC hygiene.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="docs.html" class="nav-link">Documentation</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="pricing.html" class="nav-link">Pricing</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="about.html" class="nav-link active">Company</a>
+    </div>
+
+  </nav>
+
+  <div class="header-actions">
+    <a href="about.html#demo" class="nav-btn-secondary">Book a Demo</a>
+    <a href="analyze.html" class="nav-btn-primary">
+      <span>⚡</span> Start Analyzing
+    </a>
+  </div>
+</header>
+
+<!-- ═══════════════════════ MAIN CONTENT ══════════════════════════ -->
+<main id="app-main">
+  <div style="max-width:1100px; margin:40px auto; padding:0 24px">
+
+    <!-- Page Header -->
+    <div class="section-header" style="text-align:left; margin-bottom:32px">
+      <div class="section-eyebrow">ABOUT THE PLATFORM</div>
+      <h1 style="font-family:var(--display); font-size:32px; color:var(--text-primary); margin-top:4px">
+        Architecture &amp; Engineering Rationale
+      </h1>
+      <p class="section-subheading" style="margin-left:0">
+        A technical breakdown of how Sentry Console achieves privacy-preserving threat detection across binary packet streams and static files.
+      </p>
+    </div>
+
+    <!-- Section 1: Architecture Split -->
+    <div id="privacy" class="section-card" style="padding:28px; margin-bottom:24px">
+      <h2 style="font-family:var(--display); font-size:20px; color:var(--green); margin-bottom:12px">
+        1. System Architecture &amp; Execution Boundary
+      </h2>
+      <p style="color:var(--text-secondary); margin-bottom:16px; line-height:1.7">
+        Modern security triage tools frequently require uploading sensitive captures, confidential documents, or email evidence to cloud servers for parsing. Sentry Console was engineered to solve this privacy challenge by splitting execution into two distinct boundaries:
+      </p>
+      <div class="two-col">
+        <div style="background:var(--bg-surface); padding:16px; border-radius:8px; border:1px solid rgba(0,255,65,0.2)">
+          <h4 style="color:var(--green); margin-bottom:8px">🔒 100% Client-Side Engine (Files)</h4>
+          <p style="color:var(--text-secondary); font-size:12px">
+            PCAP captures, PDFs, Emails (.eml), Images, and Office documents are decoded in browser memory using HTML5 <code style="color:var(--green)">FileReader</code>, <code style="color:var(--green)">ArrayBuffer</code>, and Web Crypto APIs. Binary headers, MIME streams, EXIF structures, and ZIP containers never leave your device.
+          </p>
+        </div>
+        <div style="background:var(--bg-surface); padding:16px; border-radius:8px; border:1px solid rgba(79,195,247,0.2)">
+          <h4 style="color:var(--blue); margin-bottom:8px">🌐 Backend Proxy Service (Network)</h4>
+          <p style="color:var(--text-secondary); font-size:12px">
+            Live website assessments (Security Headers, TLS cert chains, DNS SPF/DMARC records) require network requests because browser CORS policies block raw socket inspection. A local Node.js proxy service executes server-side requests and returns findings to the UI.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solutions by Role Section -->
+    <div class="section-card" style="padding:28px; margin-bottom:24px">
+      <h2 style="font-family:var(--display); font-size:20px; color:var(--green); margin-bottom:16px">
+        Solutions by Security Role &amp; Workflow
+      </h2>
+      
+      <div class="tool-suite-grid" style="grid-template-columns: repeat(2, 1fr); margin-top:16px">
+        
+        <div id="solutions-soc" style="background:var(--bg-surface); padding:18px; border-radius:8px; border:1px solid var(--border)">
+          <h4 style="color:var(--text-primary); font-size:15px; margin-bottom:6px">🛡️ For SOC Teams</h4>
+          <p style="color:var(--text-secondary); font-size:12.5px; line-height:1.5">
+            Rapid initial triage of incoming suspicious PCAP packet dumps and email attachments. Eliminates wait times for sandbox detonation environments during early triage.
+          </p>
+        </div>
+
+        <div id="solutions-ir" style="background:var(--bg-surface); padding:18px; border-radius:8px; border:1px solid var(--border)">
+          <h4 style="color:var(--text-primary); font-size:15px; margin-bottom:6px">🚨 For Incident Responders</h4>
+          <p style="color:var(--text-secondary); font-size:12.5px; line-height:1.5">
+            Extract malicious IPs, domain names, hashes, and EXIF metadata instantly. Generate print-ready PDF forensic reports for incident documentation.
+          </p>
+        </div>
+
+        <div id="solutions-researchers" style="background:var(--bg-surface); padding:18px; border-radius:8px; border:1px solid var(--border)">
+          <h4 style="color:var(--text-primary); font-size:15px; margin-bottom:6px">🔬 For Students &amp; Researchers</h4>
+          <p style="color:var(--text-secondary); font-size:12.5px; line-height:1.5">
+            Learn low-level binary packet decoding (libpcap / pcapng format), PDF object dictionary parsing, and image steganography trailer offset verification.
+          </p>
+        </div>
+
+        <div id="solutions-sysadmins" style="background:var(--bg-surface); padding:18px; border-radius:8px; border:1px solid var(--border)">
+          <h4 style="color:var(--text-primary); font-size:15px; margin-bottom:6px">💻 For IT &amp; SysAdmins</h4>
+          <p style="color:var(--text-secondary); font-size:12.5px; line-height:1.5">
+            Audit live web service security headers (HSTS, CSP, X-Frame-Options), SSL/TLS certificate chain validity, and DNS SPF/DMARC email security records.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Book a Demo / Request Contact Section -->
+    <div id="demo" class="section-card" style="padding:28px; margin-bottom:24px; background:linear-gradient(160deg, rgba(0,255,65,0.05), var(--bg-surface-elevated))">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px">
+        <div>
+          <span class="trust-announcement-tag" style="margin-bottom:8px; display:inline-block">ENTERPRISE DEMO</span>
+          <h3 style="font-family:var(--display); font-size:22px; color:var(--text-primary); margin-bottom:6px">
+            Schedule a Sentry Console Platform Walkthrough
+          </h3>
+          <p style="color:var(--text-secondary); font-size:13px; max-width:600px">
+            Learn how Sentry Console's client-side threat detection engine can fit into your enterprise SOC triage workflow or air-gapped security operations.
+          </p>
+        </div>
+        <div>
+          <a href="mailto:demo@sentryconsole.local?subject=Sentry%20Console%20Demo%20Request" class="nav-btn-primary" style="padding:12px 24px; font-size:14px">
+            Book Platform Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Detection Engine Methodology -->
+    <div class="section-card" style="padding:28px; margin-bottom:24px">
+      <h2 style="font-family:var(--display); font-size:20px; color:var(--green); margin-bottom:12px">
+        2. Detection Engine Methodology
+      </h2>
+      <p style="color:var(--text-secondary); margin-bottom:12px; line-height:1.7">
+        Signature-based tools rely on static hash lookups or rigid YARA rules, which fail when encountering novel zero-day attacks or obfuscated files. Sentry Console uses **heuristic anomaly detection**:
+      </p>
+      <ul style="color:var(--text-secondary); line-height:1.8; margin-left:20px; margin-bottom:16px">
+        <li><strong>Rate &amp; Sliding Window Thresholds:</strong> Flags port scans (≥15 distinct ports in 5s) and SYN floods (≥80 SYNs/s) based on traffic velocity.</li>
+        <li><strong>Structural &amp; Stream Inspection:</strong> Inspects PDF catalog dictionaries for <code style="color:var(--amber)">/JavaScript</code> and <code style="color:var(--amber)">/OpenAction</code> execution triggers regardless of file hash.</li>
+        <li><strong>MIME Authentication Alignment:</strong> Evaluates From vs. Return-Path domains and HTML anchor text mismatches to catch spoofed phishing emails.</li>
+        <li><strong>Marker Offset Verification:</strong> Inspects JPEG/PNG binary trailers to detect steganography payloads appended past End-Of-Image signatures.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Behind the Build -->
+    <div class="section-card" style="padding:28px; margin-bottom:24px">
+      <h2 style="font-family:var(--display); font-size:20px; color:var(--green); margin-bottom:12px">
+        3. Behind the Build
+      </h2>
+      <p style="color:var(--text-secondary); line-height:1.7">
+        Sentry Console was built as a hands-on security engineering project to demonstrate zero-dependency binary protocol parsing (classic libpcap &amp; pcapng format decoding), static document forensics, and web auditing using pure ES modules, standard Web APIs, and vanilla JavaScript.
+      </p>
+    </div>
+
+    <!-- Section 4: FAQ -->
+    <div class="section-card" style="padding:28px">
+      <h2 style="font-family:var(--display); font-size:20px; color:var(--green); margin-bottom:16px">
+        4. Frequently Asked Questions (FAQ)
+      </h2>
+
+      <div style="margin-bottom:16px">
+        <h4 style="color:var(--text-primary); margin-bottom:4px">Q: What file formats are supported?</h4>
+        <p style="color:var(--text-secondary); font-size:13px">
+          Supported formats include network captures (<code style="color:var(--green)">.pcap</code>, <code style="color:var(--green)">.pcapng</code>), PDFs (<code style="color:var(--green)">.pdf</code>), Email files (<code style="color:var(--green)">.eml</code>, <code style="color:var(--green)">.msg</code>), Images (<code style="color:var(--green)">.jpg</code>, <code style="color:var(--green)">.png</code>, <code style="color:var(--green)">.gif</code>), Office documents (<code style="color:var(--green)">.docx</code>, <code style="color:var(--green)">.xlsx</code>, <code style="color:var(--green)">.pptx</code>), and generic binary artifacts.
+        </p>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <h4 style="color:var(--text-primary); margin-bottom:4px">Q: Is my uploaded data ever transmitted to a remote cloud?</h4>
+        <p style="color:var(--text-secondary); font-size:13px">
+          <strong>No.</strong> File threat analysis runs 100% locally inside your browser's memory using JavaScript Web File APIs. No telemetry, file bytes, or hashes are transmitted.
+        </p>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <h4 style="color:var(--text-primary); margin-bottom:4px">Q: Is Sentry Console a replacement for enterprise SIEM or IDS tools?</h4>
+        <p style="color:var(--text-secondary); font-size:13px">
+          <strong>No.</strong> Sentry Console is a fast triage, forensic investigation, and educational tool designed for rapid analyst response and learning — not a certified 24/7 enterprise intrusion detection system.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Global Footer -->
+<footer class="app-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-title">⬡ SENTRY CONSOLE</div>
+      <p class="footer-brand-desc">
+        A privacy-preserving, zero-trust Security &amp; Threat Analysis Platform.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">Home</a></li>
+        <li><a href="analyze.html" class="footer-link">Analyze Artifact</a></li>
+        <li><a href="about.html" class="footer-link">About &amp; Architecture</a></li>
+        <li><a href="docs.html" class="footer-link">Detection Docs</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Analyzers</div>
+      <ul class="footer-links">
+        <li><a href="analyze.html" class="footer-link">PCAP / PCAPNG</a></li>
+        <li><a href="analyze.html" class="footer-link">PDF Forensics</a></li>
+        <li><a href="analyze.html" class="footer-link">Email Phishing</a></li>
+        <li><a href="analyze.html" class="footer-link">Domain Audit</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Security &amp; Privacy</div>
+      <ul class="footer-links">
+        <li><span style="color:var(--green); font-size:12px">🔒 100% Local Engine</span></li>
+        <li><span style="color:var(--text-muted); font-size:11px">Zero Cloud Telemetry</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Sentry Console · Open Security Platform</div>
+    <div>Built with Vanilla JS &amp; Modern Web APIs</div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script type="module">
+  import { initNavbar } from './src/modules/navbar.js?v=1.0.2';
+  import { initAmbientBg } from './src/modules/ambient_bg.js?v=1.0.0';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initNavbar();
+    initAmbientBg();
+  });
+</script>
+
+</body>
+</html>

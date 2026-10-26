@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentry Console — Multi-Format Security &amp; Threat Analysis Platform</title>
+  <meta name="description" content="Client-side multi-format threat analysis tool for security analysts. Detect network attacks, PDF scripts, email phishing, steganography, and office macros." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════ TRUST ANNOUNCEMENT BANNER ═══════════════════════ -->
+<div id="trust-announcement-bar" class="trust-announcement-bar" role="region" aria-label="Privacy Guarantee">
+  <div class="trust-announcement-content">
+    <span class="trust-announcement-tag">100% Client-Side Privacy</span>
+    <span>Packet captures and evidence files never leave your browser memory.</span>
+    <a href="about.html#privacy" class="trust-announcement-link">
+      See how zero-trust privacy works →
+    </a>
+  </div>
+  <button id="trust-announcement-close" class="trust-announcement-close" aria-label="Dismiss privacy announcement">✕</button>
+</div>
+
+<!-- ═══════════════════════ HEADER / MEGA-NAVBAR ═══════════════════════ -->
+<header id="app-header">
+  <div class="header-logo">
+    <a href="index.html" class="logo-link" aria-label="Sentry Console Home">
+      <div class="logo-icon">⬡</div>
+      <div>
+        <div class="logo-text">SENTRY CONSOLE</div>
+        <div class="logo-sub">Security &amp; Threat Analysis Platform</div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="main-nav" aria-label="Main Navigation">
+    
+    <!-- Product Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Product <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-product">
+          
+          <!-- Column 1: Analysis Modules -->
+          <div class="mega-col">
+            <div class="mega-col-title"><span>📡</span> Analysis Modules</div>
+            <div class="mega-item-list">
+              <a href="analyze.html?mode=pcap" class="mega-item">
+                <div class="mega-item-icon">📡</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Network / PCAP Capture Scanner</div>
+                  <div class="mega-item-desc">Detect port scans, SYN floods, &amp; ARP spoofing.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=pdf" class="mega-item">
+                <div class="mega-item-icon">📄</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Document Exploit Detector</div>
+                  <div class="mega-item-desc">Parse /OpenAction &amp; embedded JavaScript.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=eml" class="mega-item">
+                <div class="mega-item-icon">✉️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Email Phishing &amp; Header Analyzer</div>
+                  <div class="mega-item-desc">Inspect MIME structure &amp; SPF/DMARC.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=img" class="mega-item">
+                <div class="mega-item-icon">🖼️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Image Steganography Inspector</div>
+                  <div class="mega-item-desc">Extract EXIF metadata &amp; EOF payloads.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=doc" class="mega-item">
+                <div class="mega-item-icon">💼</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Office Document Macro Auditor</div>
+                  <div class="mega-item-desc">Scan .docx &amp; .xlsx for VBA macros.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=domain" class="mega-item">
+                <div class="mega-item-icon">🌐</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Website &amp; Domain Auditor</div>
+                  <div class="mega-item-desc">Audit TLS certificates &amp; security headers.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Column 2: Capabilities -->
+          <div class="mega-col">
+            <div class="mega-col-title"><span>⚡</span> Capabilities</div>
+            <div class="mega-item-list">
+              <a href="docs.html#scoring" class="mega-item">
+                <div class="mega-item-icon">📊</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Universal Security Scoring</div>
+                  <div class="mega-item-desc">Unified 0–100 risk score based on findings.</div>
+                </div>
+              </a>
+              <a href="docs.html#ioc" class="mega-item">
+                <div class="mega-item-icon">🎯</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Automated IOC Extraction</div>
+                  <div class="mega-item-desc">Extract IPs, domain names, &amp; hashes.</div>
+                </div>
+              </a>
+              <a href="docs.html#risk" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Heuristic Risk Classification</div>
+                  <div class="mega-item-desc">CRITICAL, HIGH, MEDIUM, &amp; LOW tags.</div>
+                </div>
+              </a>
+              <a href="docs.html#reports" class="mega-item">
+                <div class="mega-item-icon">📋</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Report Generation</div>
+                  <div class="mega-item-desc">Download forensic summary reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Column 3: Promo Card -->
+          <div class="mega-col">
+            <div class="mega-promo-card">
+              <div>
+                <div class="mega-promo-tag">Sentry Console Platform</div>
+                <div class="mega-promo-heading">Zero-Trust Local Forensics</div>
+                <div class="mega-promo-text">
+                  Every byte of your packet captures &amp; evidence files is parsed client-side using pure Web APIs. Zero cloud uploads.
+                </div>
+              </div>
+              <a href="docs.html" class="mega-promo-link">See how detection works →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Solutions Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Solutions <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-solutions">
+          <div class="mega-col">
+            <div class="mega-col-title">By Role &amp; Workflow</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-soc" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For SOC Teams</div>
+                  <div class="mega-item-desc">Rapid initial triage of suspicious captures &amp; attachments.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-ir" class="mega-item">
+                <div class="mega-item-icon">🚨</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Incident Responders</div>
+                  <div class="mega-item-desc">Extract indicators of compromise &amp; generate PDF reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-col-title">&nbsp;</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-researchers" class="mega-item">
+                <div class="mega-item-icon">🔬</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Students &amp; Researchers</div>
+                  <div class="mega-item-desc">Learn binary packet structures &amp; steganography analysis.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-sysadmins" class="mega-item">
+                <div class="mega-item-icon">💻</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For IT &amp; SysAdmins</div>
+                  <div class="mega-item-desc">Audit website TLS security &amp; DNS SPF/DMARC hygiene.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="docs.html" class="nav-link">Documentation</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="pricing.html" class="nav-link">Pricing</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="about.html" class="nav-link">Company</a>
+    </div>
+
+  </nav>
+
+  <div class="header-actions">
+    <a href="about.html#demo" class="nav-btn-secondary">Book a Demo</a>
+    <a href="analyze.html" class="nav-btn-primary">
+      <span>⚡</span> Start Analyzing
+    </a>
+  </div>
+</header>
+
+<!-- ═══════════════════════ MAIN CONTENT ══════════════════════════ -->
+<main id="app-main">
+  <div id="landing-page">
+
+    <!-- ══════════════ HERO SECTION ═════════════════════════════ -->
+    <section id="hero">
+      <div class="hero-scan-line"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          MULTI-FORMAT FORENSICS · THREAT INTELLIGENCE · DOMAIN AUDITING
+        </div>
+        <h1 class="hero-headline">
+          Multi-Format Threat Analysis.<br />
+          <span class="headline-accent">Detect Threats Instantly.</span>
+        </h1>
+        <p class="hero-sub">
+          Instant client-side threat detection for PCAP captures, PDF documents, Emails (.eml), Images, and Office files — combined with automated website domain security audits.
+        </p>
+        <div class="hero-cta-row">
+          <a href="analyze.html" class="hero-cta-btn" aria-label="Start analyzing security artifacts">
+            <span class="cta-icon">⚡</span>
+            Start Analyzing Now
+          </a>
+          <div class="hero-trust-row">
+            <span class="trust-chip">🔒 100% Private local file processing</span>
+            <span class="trust-chip">⚡ Instant heuristic scans</span>
+            <span class="trust-chip">🌐 Domain audits</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-telemetry-card" aria-label="Real-Time Telemetry Preview">
+        <div class="telemetry-card-header">
+          <div class="telemetry-card-title">
+            <span class="telemetry-status-pulse"></span>
+            LIVE THREAT TELEMETRY ENGINE
+          </div>
+          <span class="telemetry-badge">100% Client-Side Privacy</span>
+        </div>
+        <div class="telemetry-metrics-grid">
+          <div class="metric-tile">
+            <div class="metric-label">PARSING SPEED</div>
+            <div class="metric-value">&lt; 250ms</div>
+            <div class="metric-sub">Zero-Cloud Latency</div>
+          </div>
+          <div class="metric-tile">
+            <div class="metric-label">DETECTION FORMATS</div>
+            <div class="metric-value">6 Engines</div>
+            <div class="metric-sub">PCAP, PDF, EML, IMG, DOC, DOMAIN</div>
+          </div>
+        </div>
+        <div class="telemetry-stream">
+          <div class="stream-item">
+            <span class="stream-badge critical">CRITICAL</span>
+            <span class="stream-desc">Network SYN Flood Attack Detected</span>
+            <span class="stream-target">192.168.1.45:80</span>
+          </div>
+          <div class="stream-item">
+            <span class="stream-badge high">HIGH</span>
+            <span class="stream-desc">PDF Embedded /OpenAction JavaScript</span>
+            <span class="stream-target">invoice_payload.pdf</span>
+          </div>
+          <div class="stream-item">
+            <span class="stream-badge medium">MEDIUM</span>
+            <span class="stream-desc">SPF / Return-Path Mail Spoof Mismatch</span>
+            <span class="stream-target">phish_mail.eml</span>
+          </div>
+          <div class="stream-item">
+            <span class="stream-badge low">INFO</span>
+            <span class="stream-desc">Website TLS Security Audit Completed</span>
+            <span class="stream-target">Score: 92/100</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ PRODUCT SUITE LAUNCHER GRID ═════════════════ -->
+    <section id="tool-suite-section" style="margin-top: 60px;">
+      <div class="section-header">
+        <div class="section-eyebrow">PRODUCT SUITE</div>
+        <h2 class="section-heading">Analysis Modules Launcher</h2>
+        <p class="section-subheading">Launch targeted threat detection engines built for specific artifact types.</p>
+      </div>
+
+      <div class="tool-suite-grid">
+
+        <!-- Tool 1: Network PCAP -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">📡</div>
+                <div class="tool-card-title">Network PCAP Scanner</div>
+              </div>
+              <span class="tool-card-badge local">Local</span>
+            </div>
+            <p class="tool-card-desc">
+              Detects port scans, SYN floods, ARP spoofing, and 10+ attack patterns using heuristic packet analysis.
+            </p>
+            <ul class="tool-card-features">
+              <li>Rate &amp; window velocity monitoring</li>
+              <li>DNS tunneling &amp; exfiltration detection</li>
+              <li>Local PCAP / PCAPNG binary decoder</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=pcap" class="tool-card-link">Launch PCAP Scanner →</a>
+          </div>
+        </div>
+
+        <!-- Tool 2: PDF Document Exploit Detector -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">📄</div>
+                <div class="tool-card-title">PDF Document Exploit Detector</div>
+              </div>
+              <span class="tool-card-badge local">Local</span>
+            </div>
+            <p class="tool-card-desc">
+              Inspects PDF dictionary objects for auto-executing scripts, hidden streams, and malicious payloads.
+            </p>
+            <ul class="tool-card-features">
+              <li>/OpenAction &amp; /JavaScript trigger audit</li>
+              <li>Embedded file object extraction</li>
+              <li>Obfuscated stream entropy check</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=pdf" class="tool-card-link">Launch PDF Detector →</a>
+          </div>
+        </div>
+
+        <!-- Tool 3: Email Phishing & Header Analyzer -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">✉️</div>
+                <div class="tool-card-title">Email Phishing &amp; Header Analyzer</div>
+              </div>
+              <span class="tool-card-badge local">Local</span>
+            </div>
+            <p class="tool-card-desc">
+              Evaluates MIME structure, header authentication alignment (SPF/DMARC), and anchor URL mismatches.
+            </p>
+            <ul class="tool-card-features">
+              <li>From vs Return-Path sender validation</li>
+              <li>Suspicious attachment type flagging</li>
+              <li>MIME multipart structure parsing</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=eml" class="tool-card-link">Launch Email Analyzer →</a>
+          </div>
+        </div>
+
+        <!-- Tool 4: Image Steganography Inspector -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">🖼️</div>
+                <div class="tool-card-title">Image Steganography Inspector</div>
+              </div>
+              <span class="tool-card-badge local">Local</span>
+            </div>
+            <p class="tool-card-desc">
+              Parses EXIF camera metadata, GPS locations, and flags hidden data appended past End-Of-Image trailers.
+            </p>
+            <ul class="tool-card-features">
+              <li>JPEG/PNG trailer offset inspection</li>
+              <li>Camera EXIF &amp; GPS metadata extraction</li>
+              <li>Suspicious payload bytes alert</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=img" class="tool-card-link">Launch Image Inspector →</a>
+          </div>
+        </div>
+
+        <!-- Tool 5: Office Document Macro Auditor -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">💼</div>
+                <div class="tool-card-title">Office Document Macro Auditor</div>
+              </div>
+              <span class="tool-card-badge local">Local</span>
+            </div>
+            <p class="tool-card-desc">
+              Scans OpenXML .docx and .xlsx archives for auto-run macros, DDE execution, and external web queries.
+            </p>
+            <ul class="tool-card-features">
+              <li>VBA Macro code stream detection</li>
+              <li>DDE (Dynamic Data Exchange) flags</li>
+              <li>External relationship link auditing</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=doc" class="tool-card-link">Launch Office Auditor →</a>
+          </div>
+        </div>
+
+        <!-- Tool 6: Website & Domain Auditor -->
+        <div class="tool-card">
+          <div>
+            <div class="tool-card-header">
+              <div class="tool-card-icon-wrap">
+                <div class="tool-card-icon">🌐</div>
+                <div class="tool-card-title">Website &amp; Domain Auditor</div>
+              </div>
+              <span class="tool-card-badge network">Network</span>
+            </div>
+            <p class="tool-card-desc">
+              Audits live website security headers (HSTS, CSP), SSL/TLS certificate chains, and DNS SPF/DMARC records.
+            </p>
+            <ul class="tool-card-features">
+              <li>HTTP Security Response Headers audit</li>
+              <li>TLS/SSL Certificate validation</li>
+              <li>DNS email authentication records check</li>
+            </ul>
+          </div>
+          <div class="tool-card-footer">
+            <a href="analyze.html?mode=domain" class="tool-card-link">Launch Domain Auditor →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center; margin-top:24px">
+        <a href="docs.html" style="color:var(--green); font-size:13px; font-weight:600; text-decoration:none">
+          See all analysis modules &amp; detection rules →
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════════ HOW IT WORKS SECTION ═════════════════════ -->
+    <section id="how-it-works-section" style="margin-top: 60px;">
+      <div class="section-header">
+        <div class="section-eyebrow">WORKFLOW</div>
+        <h2 class="section-heading">How Sentry Console Works</h2>
+        <p class="section-subheading">A 4-step automated pipeline designed for zero-install, privacy-first security triage.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">1️⃣</div>
+          <div class="why-card-title">Upload / Select Target</div>
+          <p class="why-card-desc">
+            Drop network captures (.pcap/.pcapng), PDFs, EML emails, Images, Office docs, or type a website domain URL.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">2️⃣</div>
+          <div class="why-card-title">Parse Locally</div>
+          <p class="why-card-desc">
+            Binary headers, MIME streams, EXIF metadata, and OpenXML archives are parsed inside your browser memory.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">3️⃣</div>
+          <div class="why-card-title">Heuristic Threat Match</div>
+          <p class="why-card-desc">
+            Our heuristic detection engine evaluates SYN bursts, port scans, embedded scripts, spoofed senders, and stego markers.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">4️⃣</div>
+          <div class="why-card-title">Review &amp; Export Report</div>
+          <p class="why-card-desc">
+            Get an instant Universal Security Score (0–100), extract IOCs, review interactive flow charts, and download PDF reports.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ FEATURE MATRIX TABLE SECTION ══════════════ -->
+    <section id="matrix-section" style="margin-top:60px">
+      <div class="section-header">
+        <div class="section-eyebrow">DETECTION MATRIX</div>
+        <h2 class="section-heading">Comprehensive Detection Coverage</h2>
+        <p class="section-subheading">See exactly what checks are performed across each analysis module.</p>
+      </div>
+
+      <div class="matrix-table-container">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Capabilities &amp; Detection Rules</th>
+              <th style="text-align:center">Network PCAP</th>
+              <th style="text-align:center">PDF Docs</th>
+              <th style="text-align:center">Email (.eml)</th>
+              <th style="text-align:center">Image Stego</th>
+              <th style="text-align:center">Office Docs</th>
+              <th style="text-align:center">Website / Domain</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="matrix-feature-name">
+                Heuristic Traffic Analysis
+                <span class="matrix-feature-sub">Binary packet header &amp; payload stream evaluation</span>
+              </td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                Port Scan &amp; SYN Flood Detection
+                <span class="matrix-feature-sub">Rate thresholding over sliding 5-second window</span>
+              </td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                Script Execution Triggers (/OpenAction)
+                <span class="matrix-feature-sub">Catalog dictionary parsing for obfuscated JavaScript</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                Email Header &amp; MIME Spoofing Check
+                <span class="matrix-feature-sub">From vs Return-Path alignment &amp; anchor verification</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                Steganography Marker Inspection
+                <span class="matrix-feature-sub">Trailer offset analysis past End-Of-Image signatures</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                EXIF &amp; Geolocation Extraction
+                <span class="matrix-feature-sub">Camera make, software build, and GPS metadata</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                VBA Macro &amp; DDE Payload Detection
+                <span class="matrix-feature-sub">OpenXML archive stream inspection for macros</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-dash">—</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                HTTP Security Headers &amp; TLS Audit
+                <span class="matrix-feature-sub">HSTS, CSP, X-Frame-Options, SSL cert validity</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                DNS SPF / DKIM / DMARC Record Lookup
+                <span class="matrix-feature-sub">Domain email authentication policy verification</span>
+              </td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-dash">—</td>
+              <td class="matrix-check">✓</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                Universal Security Scoring (0–100)
+                <span class="matrix-feature-sub">Normalized risk classification score</span>
+              </td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+            </tr>
+            <tr>
+              <td class="matrix-feature-name">
+                PDF Forensic Report Export
+                <span class="matrix-feature-sub">Print-ready executive triage summary</span>
+              </td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+              <td class="matrix-check">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════ WHY SECTION ══════════════════════════════ -->
+    <section id="why-section" style="margin-top:60px">
+      <div class="section-header">
+        <div class="section-eyebrow">WHY SENTRY CONSOLE</div>
+        <h2 class="section-heading">Built for analysts who need answers fast.</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🔍</div>
+          <div class="why-card-title">Unified Multi-Format Triage</div>
+          <p class="why-card-desc">
+            Replaces disconnected tools. Analyze network PCAPs, malicious PDF attachments, spoofed emails, stego images, and domain headers in one unified console.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⚡</div>
+          <div class="why-card-title">Instant Results</div>
+          <p class="why-card-desc">
+            Manual PCAP analysis in Wireshark and file inspection is slow. Sentry Console surfaces critical findings in seconds so responders can act first.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🔒</div>
+          <div class="why-card-title">Zero-Trust Privacy</div>
+          <p class="why-card-desc">
+            Every file byte stays inside your browser via Web File APIs. Your sensitive production captures and evidence never touch a third-party server.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">👥</div>
+          <div class="why-card-title">Built For Every Analyst</div>
+          <p class="why-card-desc">
+            Designed for SOC analysts doing incident triage, incident response teams, students learning network forensics, and security researchers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ TRUST & PRIVACY EXPLICIT SPLIT ════════════ -->
+    <section id="privacy-section" style="margin-top:60px">
+      <div class="section-header">
+        <div class="section-eyebrow">TRANSPARENCY</div>
+        <h2 class="section-heading">Trust &amp; Privacy Architecture</h2>
+        <p class="section-subheading">We are explicit about where processing occurs.</p>
+      </div>
+      <div class="section-card" style="padding:24px">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature &amp; Artifact Type</th>
+              <th>Execution Boundary</th>
+              <th>Network Requirement</th>
+              <th>Privacy Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PCAP / PCAPNG Network Captures</strong></td>
+              <td>100% In-Browser JS Engine</td>
+              <td>None (Offline)</td>
+              <td><span class="privacy-badge local">🔒 File Never Leaves Browser</span></td>
+            </tr>
+            <tr>
+              <td><strong>PDF Documents &amp; Streams</strong></td>
+              <td>100% In-Browser JS Engine</td>
+              <td>None (Offline)</td>
+              <td><span class="privacy-badge local">🔒 File Never Leaves Browser</span></td>
+            </tr>
+            <tr>
+              <td><strong>Email (.eml) MIME &amp; Headers</strong></td>
+              <td>100% In-Browser JS Engine</td>
+              <td>None (Offline)</td>
+              <td><span class="privacy-badge local">🔒 File Never Leaves Browser</span></td>
+            </tr>
+            <tr>
+              <td><strong>Images (JPG / PNG / GIF EXIF &amp; Stego)</strong></td>
+              <td>100% In-Browser JS Engine</td>
+              <td>None (Offline)</td>
+              <td><span class="privacy-badge local">🔒 File Never Leaves Browser</span></td>
+            </tr>
+            <tr>
+              <td><strong>Office Docs (DOCX / XLSX Macros)</strong></td>
+              <td>100% In-Browser JS Engine</td>
+              <td>None (Offline)</td>
+              <td><span class="privacy-badge local">🔒 File Never Leaves Browser</span></td>
+            </tr>
+            <tr>
+              <td><strong>Website &amp; Domain Security Scans</strong></td>
+              <td>Node.js Backend Service Proxy</td>
+              <td>Server-Side Network Request</td>
+              <td><span class="privacy-badge network">🌐 Server Fetches Domain Headers</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /#landing-page -->
+</main>
+
+<!-- ═══════════════════════ GLOBAL FOOTER ═══════════════════════ -->
+<footer class="app-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-title">⬡ SENTRY CONSOLE</div>
+      <p class="footer-brand-desc">
+        A privacy-preserving, zero-trust Security &amp; Threat Analysis Platform built for SOC triage, threat intelligence, and security research.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">Home</a></li>
+        <li><a href="analyze.html" class="footer-link">Analyze Artifact</a></li>
+        <li><a href="about.html" class="footer-link">About &amp; Architecture</a></li>
+        <li><a href="docs.html" class="footer-link">Detection Docs</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Analyzers</div>
+      <ul class="footer-links">
+        <li><a href="analyze.html" class="footer-link">PCAP / PCAPNG</a></li>
+        <li><a href="analyze.html" class="footer-link">PDF Forensics</a></li>
+        <li><a href="analyze.html" class="footer-link">Email Phishing</a></li>
+        <li><a href="analyze.html" class="footer-link">Domain Audit</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Security &amp; Privacy</div>
+      <ul class="footer-links">
+        <li><span style="color:var(--green); font-size:12px">🔒 100% Local Engine</span></li>
+        <li><span style="color:var(--text-muted); font-size:11px">Zero Cloud Telemetry</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Sentry Console · Open Security Platform</div>
+    <div>Built with Vanilla JS &amp; Modern Web APIs</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════ SCRIPTS ══════════════════════════ -->
+<script type="module">
+  import { initNavbar } from './src/modules/navbar.js?v=1.0.2';
+  import { initAmbientBg } from './src/modules/ambient_bg.js?v=1.0.0';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    try { initNavbar(); } catch (e) { console.warn('[Index] initNavbar error:', e); }
+    try { initAmbientBg(); } catch (e) { console.warn('[Index] initAmbientBg error:', e); }
+    try { setupAttackCards(); } catch (e) { console.warn('[Index] setupAttackCards error:', e); }
+  });
+
+  function setupAttackCards() {
+    document.querySelectorAll('.detect-badge').forEach(card => {
+      card.addEventListener('click', () => {
+        window.location.href = 'docs.html';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "targets": [
+    {
+      "id": 1,
+      "domain": "example.com",
+      "name": "example.com",
+      "frequency_hours": 24,
+      "status": "ACTIVE",
+      "last_scanned_at": "2026-08-14T12:41:13.276Z",
+      "last_score": 59,
+      "created_at": "2026-08-13T11:11:26.904Z"
+    }
+  ],
+  "scan_history": [
+    {
+      "id": 1,
+      "target_id": 1,
+      "score": 59,
+      "risk_level": "HIGH RISK",
+      "findings_count": 4,
+      "result_json": "{\"metadata\":{\"targetName\":\"example.com\",\"targetUrl\":\"https://example.com\",\"targetType\":\"Website & Domain Assessment\",\"privacyMode\":\"🌐 BACKEND NETWORK LOOKUP\",\"scanDate\":\"2026-08-13T12:08:23.278Z\"},\"score\":59,\"riskLevel\":\"HIGH RISK\",\"findings\":[{\"id\":\"HDR-HIGH-NO-HSTS\",\"title\":\"Missing HTTP Strict Transport Security (HSTS)\",\"severity\":\"HIGH\",\"category\":\"Security Headers\",\"description\":\"Domain does not serve the Strict-Transport-Security header. Users are vulnerable to SSL stripping and man-in-the-middle downgrade attacks.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Add \\\"Strict-Transport-Security: max-age=31536000; includeSubDomains; preload\\\" header.\"},{\"id\":\"HDR-HIGH-NO-CSP\",\"title\":\"Missing Content Security Policy (CSP)\",\"severity\":\"HIGH\",\"category\":\"Security Headers\",\"description\":\"No Content-Security-Policy header defined. Lacking CSP increases vulnerability to Cross-Site Scripting (XSS) and data injection.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Implement a strict CSP header restricting script and connect directives.\"},{\"id\":\"HDR-MED-NO-XFO\",\"title\":\"Missing X-Frame-Options (Clickjacking Vulnerability)\",\"severity\":\"MEDIUM\",\"category\":\"Security Headers\",\"description\":\"Missing X-Frame-Options header allows the website to be framed inside third-party iframes, exposing users to clickjacking.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Set \\\"X-Frame-Options: DENY\\\" or \\\"SAMEORIGIN\\\".\"},{\"id\":\"HDR-LOW-NO-XCTO\",\"title\":\"Missing X-Content-Type-Options Header\",\"severity\":\"LOW\",\"category\":\"Security Headers\",\"description\":\"Missing X-Content-Type-Options: nosniff allows browsers to MIME-sniff response bodies away from declared content types.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Set \\\"X-Content-Type-Options: nosniff\\\".\"}],\"iocs\":{\"domains\":[\"example.com\"],\"urls\":[\"https://example.com\"],\"ips\":[\"172.66.147.243\",\"104.20.23.154\"],\"emails\":[],\"hashes\":[]},\"artifacts\":{\"headers\":{\"date\":\"Thu, 13 Aug 2026 12:08:23 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"keep-alive\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 12 Aug 2026 20:15:57 GMT\",\"allow\":\"GET, HEAD\",\"accept-ranges\":\"bytes\",\"age\":\"10178\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a2a79ad92ec5b87c-BOM\"},\"techStack\":[\"Server: cloudflare\"],\"tlsCertificate\":{\"subject\":\"example.com\",\"issuer\":\"SSL Corporation\",\"validFrom\":\"Jul 29 22:10:08 2026 GMT\",\"validTo\":\"Oct 27 22:17:21 2026 GMT\",\"protocol\":\"TLSv1.3\",\"cipherName\":\"TLS_AES_256_GCM_SHA384\"},\"dnsRecords\":{\"txtRecords\":[\"_k2n1y4vw3qtb4skdx9e7dxt97qrmmq9\",\"v=spf1 -all\"],\"aRecords\":[\"172.66.147.243\",\"104.20.23.154\"],\"spf\":\"v=spf1 -all\",\"dmarc\":\"v=DMARC1;p=reject;sp=reject;adkim=s;aspf=s\"}}}",
+      "scanned_at": "2026-08-13T12:08:23.311Z"
+    },
+    {
+      "id": 2,
+      "target_id": 1,
+      "score": 59,
+      "risk_level": "HIGH RISK",
+      "findings_count": 4,
+      "result_json": "{\"metadata\":{\"targetName\":\"example.com\",\"targetUrl\":\"https://example.com\",\"targetType\":\"Website & Domain Assessment\",\"privacyMode\":\"🌐 BACKEND NETWORK LOOKUP\",\"scanDate\":\"2026-08-14T12:41:13.226Z\"},\"score\":59,\"riskLevel\":\"HIGH RISK\",\"findings\":[{\"id\":\"HDR-HIGH-NO-HSTS\",\"title\":\"Missing HTTP Strict Transport Security (HSTS)\",\"severity\":\"HIGH\",\"category\":\"Security Headers\",\"description\":\"Domain does not serve the Strict-Transport-Security header. Users are vulnerable to SSL stripping and man-in-the-middle downgrade attacks.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Add \\\"Strict-Transport-Security: max-age=31536000; includeSubDomains; preload\\\" header.\"},{\"id\":\"HDR-HIGH-NO-CSP\",\"title\":\"Missing Content Security Policy (CSP)\",\"severity\":\"HIGH\",\"category\":\"Security Headers\",\"description\":\"No Content-Security-Policy header defined. Lacking CSP increases vulnerability to Cross-Site Scripting (XSS) and data injection.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Implement a strict CSP header restricting script and connect directives.\"},{\"id\":\"HDR-MED-NO-XFO\",\"title\":\"Missing X-Frame-Options (Clickjacking Vulnerability)\",\"severity\":\"MEDIUM\",\"category\":\"Security Headers\",\"description\":\"Missing X-Frame-Options header allows the website to be framed inside third-party iframes, exposing users to clickjacking.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Set \\\"X-Frame-Options: DENY\\\" or \\\"SAMEORIGIN\\\".\"},{\"id\":\"HDR-LOW-NO-XCTO\",\"title\":\"Missing X-Content-Type-Options Header\",\"severity\":\"LOW\",\"category\":\"Security Headers\",\"description\":\"Missing X-Content-Type-Options: nosniff allows browsers to MIME-sniff response bodies away from declared content types.\",\"source\":\"HTTP Response Headers\",\"recommendation\":\"Set \\\"X-Content-Type-Options: nosniff\\\".\"}],\"iocs\":{\"domains\":[\"example.com\"],\"urls\":[\"https://example.com\"],\"ips\":[\"172.66.147.243\",\"104.20.23.154\"],\"emails\":[],\"hashes\":[]},\"artifacts\":{\"headers\":{\"date\":\"Fri, 14 Aug 2026 12:41:13 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"keep-alive\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 12 Aug 2026 20:15:57 GMT\",\"allow\":\"GET, HEAD\",\"accept-ranges\":\"bytes\",\"age\":\"13378\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a2b008514e05ff66-BOM\"},\"techStack\":[\"Server: cloudflare\"],\"tlsCertificate\":{\"subject\":\"example.com\",\"issuer\":\"SSL Corporation\",\"validFrom\":\"Jul 29 22:10:08 2026 GMT\",\"validTo\":\"Oct 27 22:17:21 2026 GMT\",\"protocol\":\"TLSv1.3\",\"cipherName\":\"TLS_AES_256_GCM_SHA384\"},\"dnsRecords\":{\"txtRecords\":[\"_k2n1y4vw3qtb4skdx9e7dxt97qrmmq9\",\"v=spf1 -all\"],\"aRecords\":[\"172.66.147.243\",\"104.20.23.154\"],\"spf\":\"v=spf1 -all\",\"dmarc\":\"v=DMARC1;p=reject;sp=reject;adkim=s;aspf=s\"}}}",
+      "scanned_at": "2026-08-14T12:41:13.276Z"
+    }
+  ]
+}

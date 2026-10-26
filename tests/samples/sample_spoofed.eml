@@ -1,0 +1,17 @@
+From: "PayPal Security" <service@paypal.com>
+To: victim@example.com
+Subject: URGENT: Your Account Has Been Suspended - Action Required
+Date: Thu, 13 Aug 2026 12:00:00 +0000
+Return-Path: <attacker@evil-phishing-domain.xyz>
+Reply-To: <phisher@malicious-collector.net>
+Received-SPF: softfail (google.com: domain of transition attacker@evil-phishing-domain.xyz does not designate 192.0.2.1 as permitted sender)
+Authentication-Results: dkim=fail header.i=@paypal.com; dmarc=fail (p=reject)
+Content-Type: text/html; charset=UTF-8
+
+<html>
+<body>
+  <h2>Account Suspended</h2>
+  <p>We detected unauthorized login attempts on your account. Action required within 24 hours to verify your identity.</p>
+  <p>Click here immediately to restore access: <a href="http://evil-phishing-domain.xyz/login.php">https://www.paypal.com/verify-account</a></p>
+</body>
+</html>

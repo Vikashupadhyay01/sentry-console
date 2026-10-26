@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Documentation &amp; Rule Reference — Sentry Console</title>
+  <meta name="description" content="Professional security technical documentation for Sentry Console threat detection engine, heuristic thresholds, architecture whitepaper, and API reference." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+
+<!-- ═══════════════════════ HEADER / NAVBAR ═══════════════════════ -->
+<!-- ═══════════════════════ TRUST ANNOUNCEMENT BANNER ═══════════════════════ -->
+<div id="trust-announcement-bar" class="trust-announcement-bar" role="region" aria-label="Privacy Guarantee">
+  <div class="trust-announcement-content">
+    <span class="trust-announcement-tag">100% Client-Side Privacy</span>
+    <span>Packet captures and evidence files never leave your browser memory.</span>
+    <a href="about.html#privacy" class="trust-announcement-link">
+      See how zero-trust privacy works →
+    </a>
+  </div>
+  <button id="trust-announcement-close" class="trust-announcement-close" aria-label="Dismiss privacy announcement">✕</button>
+</div>
+
+<!-- ═══════════════════════ HEADER / MEGA-NAVBAR ═══════════════════════ -->
+<header id="app-header">
+  <div class="header-logo">
+    <a href="index.html" class="logo-link" aria-label="Sentry Console Home">
+      <div class="logo-icon">⬡</div>
+      <div>
+        <div class="logo-text">SENTRY CONSOLE</div>
+        <div class="logo-sub">Security &amp; Threat Analysis Platform</div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="main-nav" aria-label="Main Navigation">
+    
+    <!-- Product Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Product <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-product">
+          
+          <div class="mega-col">
+            <div class="mega-col-title"><span>📡</span> Analysis Modules</div>
+            <div class="mega-item-list">
+              <a href="analyze.html?mode=pcap" class="mega-item">
+                <div class="mega-item-icon">📡</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Network / PCAP Capture Scanner</div>
+                  <div class="mega-item-desc">Detect port scans, SYN floods, &amp; ARP spoofing.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=pdf" class="mega-item">
+                <div class="mega-item-icon">📄</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Document Exploit Detector</div>
+                  <div class="mega-item-desc">Parse /OpenAction &amp; embedded JavaScript.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=eml" class="mega-item">
+                <div class="mega-item-icon">✉️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Email Phishing &amp; Header Analyzer</div>
+                  <div class="mega-item-desc">Inspect MIME structure &amp; SPF/DMARC.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=img" class="mega-item">
+                <div class="mega-item-icon">🖼️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Image Steganography Inspector</div>
+                  <div class="mega-item-desc">Extract EXIF metadata &amp; EOF payloads.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=doc" class="mega-item">
+                <div class="mega-item-icon">💼</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Office Document Macro Auditor</div>
+                  <div class="mega-item-desc">Scan .docx &amp; .xlsx for VBA macros.</div>
+                </div>
+              </a>
+              <a href="analyze.html?mode=domain" class="mega-item">
+                <div class="mega-item-icon">🌐</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Website &amp; Domain Auditor</div>
+                  <div class="mega-item-desc">Audit TLS certificates &amp; security headers.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-col-title"><span>⚡</span> Capabilities</div>
+            <div class="mega-item-list">
+              <a href="docs.html#scoring" class="mega-item">
+                <div class="mega-item-icon">📊</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Universal Security Scoring</div>
+                  <div class="mega-item-desc">Unified 0–100 risk score based on findings.</div>
+                </div>
+              </a>
+              <a href="docs.html#ioc" class="mega-item">
+                <div class="mega-item-icon">🎯</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Automated IOC Extraction</div>
+                  <div class="mega-item-desc">Extract IPs, domain names, &amp; hashes.</div>
+                </div>
+              </a>
+              <a href="docs.html#risk" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">Heuristic Risk Classification</div>
+                  <div class="mega-item-desc">CRITICAL, HIGH, MEDIUM, &amp; LOW tags.</div>
+                </div>
+              </a>
+              <a href="docs.html#reports" class="mega-item">
+                <div class="mega-item-icon">📋</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">PDF Report Generation</div>
+                  <div class="mega-item-desc">Download forensic summary reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-promo-card">
+              <div>
+                <div class="mega-promo-tag">Sentry Console Platform</div>
+                <div class="mega-promo-heading">Zero-Trust Local Forensics</div>
+                <div class="mega-promo-text">
+                  Every byte of your packet captures &amp; evidence files is parsed client-side using pure Web APIs. Zero cloud uploads.
+                </div>
+              </div>
+              <a href="docs.html" class="mega-promo-link">See how detection works →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Solutions Mega Menu Dropdown -->
+    <div class="nav-item has-dropdown">
+      <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+        Solutions <span class="nav-arrow">▼</span>
+      </button>
+      <div class="mega-dropdown-menu" role="menu">
+        <div class="mega-panel mega-panel-solutions">
+          <div class="mega-col">
+            <div class="mega-col-title">By Role &amp; Workflow</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-soc" class="mega-item">
+                <div class="mega-item-icon">🛡️</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For SOC Teams</div>
+                  <div class="mega-item-desc">Rapid initial triage of suspicious captures &amp; attachments.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-ir" class="mega-item">
+                <div class="mega-item-icon">🚨</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Incident Responders</div>
+                  <div class="mega-item-desc">Extract indicators of compromise &amp; generate PDF reports.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="mega-col">
+            <div class="mega-col-title">&nbsp;</div>
+            <div class="mega-item-list">
+              <a href="about.html#solutions-researchers" class="mega-item">
+                <div class="mega-item-icon">🔬</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For Students &amp; Researchers</div>
+                  <div class="mega-item-desc">Learn binary packet structures &amp; steganography analysis.</div>
+                </div>
+              </a>
+              <a href="about.html#solutions-sysadmins" class="mega-item">
+                <div class="mega-item-icon">💻</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-title">For IT &amp; SysAdmins</div>
+                  <div class="mega-item-desc">Audit website TLS security &amp; DNS SPF/DMARC hygiene.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="docs.html" class="nav-link active">Documentation</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="pricing.html" class="nav-link">Pricing</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="about.html" class="nav-link">Company</a>
+    </div>
+
+  </nav>
+
+  <div class="header-actions">
+    <a href="about.html#demo" class="nav-btn-secondary">Book a Demo</a>
+    <a href="analyze.html" class="nav-btn-primary">
+      <span>⚡</span> Start Analyzing
+    </a>
+  </div>
+</header>
+
+<!-- ═══════════════════════ ENTERPRISE DOCS LAYOUT ═══════════════════════ -->
+<div class="docs-layout">
+
+  <!-- LEFT SIDEBAR NAVIGATION -->
+  <aside class="docs-sidebar">
+    <div class="docs-search-box">
+      <input type="text" id="docs-search-input" class="docs-search-input" placeholder="🔍 Search documentation..." />
+    </div>
+
+    <!-- Group 1: Overview & Architecture -->
+    <div class="docs-nav-group">
+      <div class="docs-nav-title">Overview &amp; Architecture</div>
+      <ul class="docs-nav-list">
+        <li class="docs-nav-item"><a href="#doc-overview">Getting Started</a></li>
+        <li class="docs-nav-item"><a href="#doc-architecture">Engine Architecture Whitepaper</a></li>
+      </ul>
+    </div>
+
+    <!-- Group 2: Network Traffic (PCAP) -->
+    <div class="docs-nav-group">
+      <div class="docs-nav-title">Network Traffic Analysis (PCAP)</div>
+      <ul class="docs-nav-list">
+        <li class="docs-nav-item"><a href="#rule-net-01">NET-01: Port Scan</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-02">NET-02: SYN Flood</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-03">NET-03: ICMP Flood</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-04">NET-04: Brute Force</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-05">NET-05: ARP Spoofing</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-06">NET-06: DNS Tunneling</a></li>
+        <li class="docs-nav-item"><a href="#rule-net-07">NET-07: Data Exfiltration</a></li>
+      </ul>
+    </div>
+
+    <!-- Group 3: File Threat Detection -->
+    <div class="docs-nav-group">
+      <div class="docs-nav-title">File Threat Detection</div>
+      <ul class="docs-nav-list">
+        <li class="docs-nav-item"><a href="#rule-file-pdf">FILE-PDF-01: PDF Scripting</a></li>
+        <li class="docs-nav-item"><a href="#rule-file-eml">FILE-EML-01: Email Spoofing</a></li>
+        <li class="docs-nav-item"><a href="#rule-file-img">FILE-IMG-01: Steganography</a></li>
+        <li class="docs-nav-item"><a href="#rule-file-doc">FILE-DOC-01: Office Macros</a></li>
+      </ul>
+    </div>
+
+    <!-- Group 4: Website Security Scans -->
+    <div class="docs-nav-group">
+      <div class="docs-nav-title">Website &amp; Domain Security</div>
+      <ul class="docs-nav-list">
+        <li class="docs-nav-item"><a href="#rule-web-hdr">WEB-HDR-01: Security Headers</a></li>
+        <li class="docs-nav-item"><a href="#rule-web-tls">WEB-TLS-01: SSL/TLS Strength</a></li>
+        <li class="docs-nav-item"><a href="#rule-web-dns">WEB-DNS-01: DNS Records</a></li>
+      </ul>
+    </div>
+
+    <!-- Group 5: Scoring, API & Changelog -->
+    <div class="docs-nav-group">
+      <div class="docs-nav-title">Reference &amp; Integrations</div>
+      <ul class="docs-nav-list">
+        <li class="docs-nav-item"><a href="#ref-scoring">Scoring Methodology</a></li>
+        <li class="docs-nav-item"><a href="#ref-api">API / Integration Spec</a></li>
+        <li class="docs-nav-item"><a href="#ref-changelog">Changelog &amp; Versions</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN DOCUMENTATION VIEWER -->
+  <main class="docs-content-area">
+
+    <!-- 1. Getting Started -->
+    <section id="doc-overview" class="doc-section">
+      <h1 style="font-family:var(--display); font-size:28px; color:var(--text-primary); margin-bottom:12px">
+        Sentry Console Technical Reference
+      </h1>
+      <p style="color:var(--text-secondary); line-height:1.7; margin-bottom:16px">
+        Welcome to the technical documentation for <strong>Sentry Console</strong>. This reference documents the underlying binary parsing pipeline, deterministic heuristic detection rules, exact detection thresholds, REST API specifications, and operational incident response workflows.
+      </p>
+      <div class="doc-meta-bar">
+        <span>Specification Version: 1.2.0</span>
+        <span>Last updated: 2026-08-13</span>
+      </div>
+    </section>
+
+    <!-- 2. Technical Architecture Whitepaper -->
+    <section id="doc-architecture" class="doc-section">
+      <h2 style="font-family:var(--display); font-size:22px; color:var(--green); margin-bottom:12px">
+        Engine Architecture Whitepaper
+      </h2>
+      <p style="color:var(--text-secondary); line-height:1.7; margin-bottom:16px">
+        Sentry Console processes network traffic and static files using a zero-dependency deterministic pipeline. Binary network captures are decoded directly from JavaScript <code style="color:var(--green)">ArrayBuffer</code> memory buffers using custom endian-aware DataViews.
+      </p>
+
+      <h3 style="font-family:var(--mono); font-size:14px; color:var(--text-primary); margin-top:20px; margin-bottom:8px">
+        1. Endian-Aware Binary Parsing Pipeline
+      </h3>
+      <p style="color:var(--text-secondary); font-size:13px; line-height:1.6; margin-bottom:12px">
+        Classic libpcap captures start with magic bytes <code style="color:var(--green)">0xa1b2c3d4</code> (Little-Endian) or <code style="color:var(--green)">0xd4c3b2a1</code> (Big-Endian). The parser inspects the magic number dynamically to set DataView byte-swapping getters:
+      </p>
+      <div class="doc-code-block">
+const firstWordLE = dv.getUint32(0, true);
+const le = (firstWordLE === 0xa1b2c3d4);
+const r16 = (o) => dv.getUint16(o, le);
+const r32 = (o) => dv.getUint32(o, le);
+      </div>
+
+      <h3 style="font-family:var(--mono); font-size:14px; color:var(--text-primary); margin-top:20px; margin-bottom:8px">
+        2. Deterministic Heuristics vs. Machine Learning Tradeoffs
+      </h3>
+      <p style="color:var(--text-secondary); font-size:13px; line-height:1.6; margin-bottom:12px">
+        Sentry Console intentionally uses <strong>deterministic rate and pattern matching heuristics</strong> instead of black-box Machine Learning models:
+      </p>
+      <ul style="color:var(--text-secondary); font-size:13px; line-height:1.7; margin-left:20px">
+        <li><strong>Precision &amp; Predictability:</strong> Heuristic thresholds produce zero non-deterministic hallucinations. Every alert maps to explicit packet counters or stream regex patterns.</li>
+        <li><strong>Zero Training Overhead:</strong> Operates instantly in-browser without downloading multi-megabyte model weights or requiring server GPU inference.</li>
+        <li><strong>Tradeoff &amp; Evasion Limitation:</strong> Low-and-slow attacks (e.g. 1 port probe every 60 seconds) will bypass sliding window thresholds (5.0s window). High-throughput legitimate vulnerability scanners (Nessus, Qualys) can trigger false positive alerts on internal subnets.</li>
+      </ul>
+    </section>
+
+    <!-- 3. NETWORK TRAFFIC ANALYSIS (PCAP) -->
+    <h2 style="font-family:var(--display); font-size:22px; color:var(--green); margin-top:40px; margin-bottom:20px">
+      Network Traffic Analysis Rules (PCAP / PCAPNG)
+    </h2>
+
+    <!-- NET-01: Port Scan -->
+    <section id="rule-net-01" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">NET-01: TCP Port Scan Detection</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1046</span>
+        </div>
+      </div>
+
+      <p style="color:var(--text-secondary); font-size:13px; margin-bottom:12px">
+        Detects rapid network probing of multiple ports on target hosts from a single originating source IP.
+      </p>
+
+      <h4 style="font-size:12px; color:var(--green); margin-bottom:4px">Source Code Implementation &amp; Thresholds:</h4>
+      <div class="doc-code-block">
+// Source: src/detection.js (detectPortScan)
+const WINDOW_SEC = 5.0;
+const PORT_THRESHOLD = 15;
+
+if (distinctPorts.size >= PORT_THRESHOLD && (timeWindow <= WINDOW_SEC)) {
+  findings.push({ id: 'port-scan', severity: 'critical', srcIP, dstIP, count: distinctPorts.size });
+}
+      </div>
+
+      <h4 style="font-size:12px; color:var(--text-primary); margin-top:12px; margin-bottom:4px">Trigger Conditions:</h4>
+      <ul style="color:var(--text-secondary); font-size:12px; margin-left:20px">
+        <li>Source IP initiates connections to <code style="color:var(--green)">≥ 15 distinct destination ports</code> within any <code style="color:var(--green)">5.0 second window</code>.</li>
+      </ul>
+
+      <h4 style="font-size:12px; color:var(--text-primary); margin-top:12px; margin-bottom:4px">False Positives &amp; Evasion:</h4>
+      <p style="color:var(--text-secondary); font-size:12px">
+        Authorized security vulnerability scanners (Nmap, Masscan) will trip this rule. Evasion: Slow stealth scans executing &lt; 15 ports per 5 seconds bypass detection.
+      </p>
+
+      <h4 style="font-size:12px; color:var(--green); margin-top:12px; margin-bottom:4px">Remediation Workflow:</h4>
+      <p style="color:var(--text-secondary); font-size:12px">
+        1. Verify if originating source IP belongs to an authorized vulnerability scanner.<br />
+        2. Block unauthorized external IPs at perimeter firewall.
+      </p>
+    </section>
+
+    <!-- NET-02: SYN Flood -->
+    <section id="rule-net-02" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">NET-02: TCP SYN Flood / DDoS</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1498.001</span>
+        </div>
+      </div>
+
+      <p style="color:var(--text-secondary); font-size:13px; margin-bottom:12px">
+        Detects high-volume TCP SYN packet bursts designed to exhaust target connection queues (SYN-RECEIVED state).
+      </p>
+
+      <div class="doc-code-block">
+// Source: src/detection.js (detectSynFlood)
+const RATE_THRESHOLD = 80; // SYNs per second
+const RATIO_THRESHOLD = 0.30; // Max 30% handshake completion
+
+if (synRate >= RATE_THRESHOLD && ackRatio <= RATIO_THRESHOLD) {
+  findings.push({ id: 'syn-flood', severity: 'critical', dstIP, synRate });
+}
+      </div>
+
+      <h4 style="font-size:12px; color:var(--text-primary); margin-top:12px; margin-bottom:4px">Trigger Conditions:</h4>
+      <ul style="color:var(--text-secondary); font-size:12px; margin-left:20px">
+        <li>Target host receives <code style="color:var(--green)">≥ 80 TCP SYNs/second</code> with <code style="color:var(--green)">≤ 30% ACK completion ratio</code>.</li>
+      </ul>
+    </section>
+
+    <!-- NET-03: ICMP Flood -->
+    <section id="rule-net-03" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">NET-03: ICMP Echo Flood</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-high">HIGH</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1498.001</span>
+        </div>
+      </div>
+
+      <div class="doc-code-block">
+// Source: src/detection.js (detectIcmpFlood)
+const ICMP_RATE_THRESHOLD = 40; // Echo Requests/sec
+
+if (icmpRate >= ICMP_RATE_THRESHOLD) {
+  findings.push({ id: 'icmp-flood', severity: 'high', dstIP, icmpRate });
+}
+      </div>
+    </section>
+
+    <!-- NET-04: Brute Force -->
+    <section id="rule-net-04" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">NET-04: Credential Brute Force</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1110</span>
+        </div>
+      </div>
+
+      <div class="doc-code-block">
+// Source: src/detection.js (detectBruteForce)
+const SENSITIVE_PORTS = [22, 21, 23, 3389, 445, 1433, 3306];
+const ATTEMPT_THRESHOLD = 15;
+
+if (SENSITIVE_PORTS.includes(dstPort) && synAttempts >= ATTEMPT_THRESHOLD) {
+  findings.push({ id: 'brute-force', severity: 'critical', srcIP, dstPort });
+}
+      </div>
+    </section>
+
+    <!-- NET-05: ARP Spoofing -->
+    <section id="rule-net-05" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">NET-05: ARP Cache Poisoning</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1557.002</span>
+        </div>
+      </div>
+
+      <div class="doc-code-block">
+// Source: src/detection.js (detectArpSpoofing)
+if (ipToMacMap[claimedIP].size >= 2) {
+  findings.push({ id: 'arp-spoofing', severity: 'critical', ip: claimedIP, macs: Array.from(macSet) });
+}
+      </div>
+    </section>
+
+    <!-- 4. FILE THREAT DETECTION RULES -->
+    <h2 style="font-family:var(--display); font-size:22px; color:var(--green); margin-top:40px; margin-bottom:20px">
+      File-Based Threat Detection Rules
+    </h2>
+
+    <!-- FILE-PDF-01 -->
+    <section id="rule-file-pdf" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">FILE-PDF-01: PDF Embedded Scripting</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1059.007</span>
+        </div>
+      </div>
+
+      <div class="doc-code-block">
+// Source: src/modules/pdf_analyzer.js
+const hasJS = /\/JavaScript|\/JS\b/gi.test(pdfString);
+const hasOpenAction = /\/OpenAction\b/i.test(pdfString);
+const hasLaunch = /\/Launch\b/i.test(pdfString);
+      </div>
+    </section>
+
+    <!-- FILE-EML-01 -->
+    <section id="rule-file-eml" class="doc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <h3 style="font-family:var(--mono); font-size:18px; color:var(--text-primary)">FILE-EML-01: Email Sender Spoofing</h3>
+        <div style="display:flex; gap:8px">
+          <span class="sev-badge sev-critical">CRITICAL</span>
+          <span class="mitre-badge">MITRE ATT&amp;CK: T1566.001</span>
+        </div>
+      </div>
+
+      <div class="doc-code-block">
+// Source: src/modules/eml_analyzer.js
+if (fromDomain !== returnPathDomain) {
+  findings.push({ id: 'EML-CRIT-SPOOF-RETURNPATH', severity: 'CRITICAL' });
+}
+      </div>
+    </section>
+
+    <!-- 5. API REFERENCE -->
+    <h2 style="font-family:var(--display); font-size:22px; color:var(--green); margin-top:40px; margin-bottom:20px">
+      Backend API Specification
+    </h2>
+
+    <section id="ref-api" class="doc-section">
+      <h3 style="font-family:var(--mono); font-size:16px; color:var(--text-primary)">POST /api/scan/url</h3>
+      <p style="color:var(--text-secondary); font-size:12px; margin-bottom:8px">Runs server-side website security assessment for target URL.</p>
+      <div class="doc-code-block">
+// Request Payload:
+{ "url": "https://example.com" }
+
+// Response (200 OK):
+{
+  "score": 59,
+  "riskLevel": "HIGH RISK",
+  "findings": [...],
+  "iocs": { "domains": ["example.com"], "ips": ["104.20.23.154"] }
+}
+      </div>
+    </section>
+
+    <!-- 6. CHANGELOG -->
+    <section id="ref-changelog" class="doc-section">
+      <h2 style="font-family:var(--display); font-size:22px; color:var(--green); margin-bottom:16px">
+        Version History &amp; Changelog
+      </h2>
+      <div style="margin-bottom:12px">
+        <strong style="color:var(--green)">v1.2.0 (2026-08-13)</strong> — Multi-Page Architecture, Persistent Navbar, Enterprise Technical Documentation System.
+      </div>
+      <div style="margin-bottom:12px">
+        <strong style="color:var(--green)">v1.1.0 (2026-08-13)</strong> — Multi-Format Engine (.pcapng, PDF, EML, Images, Office Docs), Universal Security Score (0-100), Node.js Domain Scan Backend.
+      </div>
+      <div>
+        <strong style="color:var(--green)">v1.0.0 (2026-08-13)</strong> — Initial Sentry Console release: Classic PCAP binary parser, 7 attack detectors, dark SOC UI.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Global Footer -->
+<footer class="app-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-title">⬡ SENTRY CONSOLE</div>
+      <p class="footer-brand-desc">
+        A privacy-preserving, zero-trust Security &amp; Threat Analysis Platform.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">Home</a></li>
+        <li><a href="analyze.html" class="footer-link">Analyze Artifact</a></li>
+        <li><a href="about.html" class="footer-link">About &amp; Architecture</a></li>
+        <li><a href="docs.html" class="footer-link">Detection Docs</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Analyzers</div>
+      <ul class="footer-links">
+        <li><a href="analyze.html" class="footer-link">PCAP / PCAPNG</a></li>
+        <li><a href="analyze.html" class="footer-link">PDF Forensics</a></li>
+        <li><a href="analyze.html" class="footer-link">Email Phishing</a></li>
+        <li><a href="analyze.html" class="footer-link">Domain Audit</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Security &amp; Privacy</div>
+      <ul class="footer-links">
+        <li><span style="color:var(--green); font-size:12px">🔒 100% Local Engine</span></li>
+        <li><span style="color:var(--text-muted); font-size:11px">Zero Cloud Telemetry</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Sentry Console · Open Security Platform</div>
+    <div>Built with Vanilla JS &amp; Modern Web APIs</div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script type="module">
+  import { initNavbar } from './src/modules/navbar.js?v=1.0.2';
+  import { initAmbientBg } from './src/modules/ambient_bg.js?v=1.0.0';
+  import { initDocsPage } from './src/modules/docs_app.js?v=1.0.0';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initNavbar();
+    initAmbientBg();
+    initDocsPage();
+  });
+</script>
+
+</body>
+</html>

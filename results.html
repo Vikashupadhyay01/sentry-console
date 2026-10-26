@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Analysis Results — Sentry Console</title>
+  <meta name="description"
+    content="View security analysis findings, threat scores, extracted IOCs, traffic analytics, and export PDF reports." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- jsPDF for styled client-side PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+
+
+  <!-- ═══════════════════════ HEADER / NAVBAR ═══════════════════════ -->
+  <!-- ═══════════════════════ TRUST ANNOUNCEMENT BANNER ═══════════════════════ -->
+  <div id="trust-announcement-bar" class="trust-announcement-bar" role="region" aria-label="Privacy Guarantee">
+    <div class="trust-announcement-content">
+      <span class="trust-announcement-tag">100% Client-Side Privacy</span>
+      <span>Packet captures and evidence files never leave your browser memory.</span>
+      <a href="about.html#privacy" class="trust-announcement-link">
+        See how zero-trust privacy works →
+      </a>
+    </div>
+    <button id="trust-announcement-close" class="trust-announcement-close"
+      aria-label="Dismiss privacy announcement">✕</button>
+  </div>
+
+  <!-- ═══════════════════════ HEADER / MEGA-NAVBAR ═══════════════════════ -->
+  <header id="app-header">
+    <div class="header-logo">
+      <a href="index.html" class="logo-link" aria-label="Sentry Console Home">
+        <div class="logo-icon">⬡</div>
+        <div>
+          <div class="logo-text">SENTRY CONSOLE</div>
+          <div class="logo-sub">Security &amp; Threat Analysis Platform</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="main-nav" aria-label="Main Navigation">
+
+      <!-- Product Mega Menu Dropdown -->
+      <div class="nav-item has-dropdown">
+        <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+          Product <span class="nav-arrow">▼</span>
+        </button>
+        <div class="mega-dropdown-menu" role="menu">
+          <div class="mega-panel mega-panel-product">
+
+            <div class="mega-col">
+              <div class="mega-col-title"><span>📡</span> Analysis Modules</div>
+              <div class="mega-item-list">
+                <a href="analyze.html?mode=pcap" class="mega-item">
+                  <div class="mega-item-icon">📡</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Network / PCAP Capture Scanner</div>
+                    <div class="mega-item-desc">Detect port scans, SYN floods, &amp; ARP spoofing.</div>
+                  </div>
+                </a>
+                <a href="analyze.html?mode=pdf" class="mega-item">
+                  <div class="mega-item-icon">📄</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">PDF Document Exploit Detector</div>
+                    <div class="mega-item-desc">Parse /OpenAction &amp; embedded JavaScript.</div>
+                  </div>
+                </a>
+                <a href="analyze.html?mode=eml" class="mega-item">
+                  <div class="mega-item-icon">✉️</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Email Phishing &amp; Header Analyzer</div>
+                    <div class="mega-item-desc">Inspect MIME structure &amp; SPF/DMARC.</div>
+                  </div>
+                </a>
+                <a href="analyze.html?mode=img" class="mega-item">
+                  <div class="mega-item-icon">🖼️</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Image Steganography Inspector</div>
+                    <div class="mega-item-desc">Extract EXIF metadata &amp; EOF payloads.</div>
+                  </div>
+                </a>
+                <a href="analyze.html?mode=doc" class="mega-item">
+                  <div class="mega-item-icon">💼</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Office Document Macro Auditor</div>
+                    <div class="mega-item-desc">Scan .docx &amp; .xlsx for VBA macros.</div>
+                  </div>
+                </a>
+                <a href="analyze.html?mode=domain" class="mega-item">
+                  <div class="mega-item-icon">🌐</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Website &amp; Domain Auditor</div>
+                    <div class="mega-item-desc">Audit TLS certificates &amp; security headers.</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="mega-col">
+              <div class="mega-col-title"><span>⚡</span> Capabilities</div>
+              <div class="mega-item-list">
+                <a href="docs.html#scoring" class="mega-item">
+                  <div class="mega-item-icon">📊</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Universal Security Scoring</div>
+                    <div class="mega-item-desc">Unified 0–100 risk score based on findings.</div>
+                  </div>
+                </a>
+                <a href="docs.html#ioc" class="mega-item">
+                  <div class="mega-item-icon">🎯</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Automated IOC Extraction</div>
+                    <div class="mega-item-desc">Extract IPs, domain names, &amp; hashes.</div>
+                  </div>
+                </a>
+                <a href="docs.html#risk" class="mega-item">
+                  <div class="mega-item-icon">🛡️</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">Heuristic Risk Classification</div>
+                    <div class="mega-item-desc">CRITICAL, HIGH, MEDIUM, &amp; LOW tags.</div>
+                  </div>
+                </a>
+                <a href="docs.html#reports" class="mega-item">
+                  <div class="mega-item-icon">📋</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">PDF Report Generation</div>
+                    <div class="mega-item-desc">Download forensic summary reports.</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="mega-col">
+              <div class="mega-promo-card">
+                <div>
+                  <div class="mega-promo-tag">Sentry Console Platform</div>
+                  <div class="mega-promo-heading">Zero-Trust Local Forensics</div>
+                  <div class="mega-promo-text">
+                    Every byte of your packet captures &amp; evidence files is parsed client-side using pure Web APIs.
+                    Zero cloud uploads.
+                  </div>
+                </div>
+                <a href="docs.html" class="mega-promo-link">See how detection works →</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Solutions Mega Menu Dropdown -->
+      <div class="nav-item has-dropdown">
+        <button class="mega-nav-trigger" aria-expanded="false" aria-haspopup="true">
+          Solutions <span class="nav-arrow">▼</span>
+        </button>
+        <div class="mega-dropdown-menu" role="menu">
+          <div class="mega-panel mega-panel-solutions">
+            <div class="mega-col">
+              <div class="mega-col-title">By Role &amp; Workflow</div>
+              <div class="mega-item-list">
+                <a href="about.html#solutions-soc" class="mega-item">
+                  <div class="mega-item-icon">🛡️</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">For SOC Teams</div>
+                    <div class="mega-item-desc">Rapid initial triage of suspicious captures &amp; attachments.</div>
+                  </div>
+                </a>
+                <a href="about.html#solutions-ir" class="mega-item">
+                  <div class="mega-item-icon">🚨</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">For Incident Responders</div>
+                    <div class="mega-item-desc">Extract indicators of compromise &amp; generate PDF reports.</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="mega-col">
+              <div class="mega-col-title">&nbsp;</div>
+              <div class="mega-item-list">
+                <a href="about.html#solutions-researchers" class="mega-item">
+                  <div class="mega-item-icon">🔬</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">For Students &amp; Researchers</div>
+                    <div class="mega-item-desc">Learn binary packet structures &amp; steganography analysis.</div>
+                  </div>
+                </a>
+                <a href="about.html#solutions-sysadmins" class="mega-item">
+                  <div class="mega-item-icon">💻</div>
+                  <div class="mega-item-text">
+                    <div class="mega-item-title">For IT &amp; SysAdmins</div>
+                    <div class="mega-item-desc">Audit website TLS security &amp; DNS SPF/DMARC hygiene.</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="docs.html" class="nav-link">Documentation</a>
+      </div>
+
+      <div class="nav-item">
+        <a href="pricing.html" class="nav-link">Pricing</a>
+      </div>
+
+      <div class="nav-item">
+        <a href="about.html" class="nav-link">Company</a>
+      </div>
+
+    </nav>
+
+    <div class="header-actions">
+      <a href="about.html#demo" class="nav-btn-secondary">Book a Demo</a>
+      <a href="analyze.html" class="nav-btn-primary">
+        <span>⚡</span> Start Analyzing
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ MAIN CONTENT ══════════════════════════ -->
+  <main id="app-main">
+
+    <!-- Empty State Container (If no analysis data in sessionStorage) -->
+    <div id="empty-results-box" class="section-card"
+      style="display:none; max-width:800px; margin:60px auto; text-align:center; padding:48px">
+      <div style="font-size:48px; margin-bottom:16px">📡</div>
+      <h2 style="font-family:var(--display); color:var(--text-primary); margin-bottom:8px">No Analysis Loaded</h2>
+      <p style="color:var(--text-secondary); margin-bottom:24px">
+        No active analysis payload was found in session memory. Please drop an artifact file or run a domain scan to
+        generate a security report.
+      </p>
+      <a href="analyze.html" class="btn btn-primary" style="padding:12px 28px; text-decoration:none">
+        Go to Analyze Page
+      </a>
+    </div>
+
+    <!-- Active Results Dashboard Container -->
+    <div id="dashboard" style="display:none; padding-top:20px">
+
+      <!-- Persistent Top Summary Bar -->
+      <div id="capture-info-bar">
+        <span>📁 Target: <strong id="stat-filename" style="color:var(--green)">—</strong> <span
+            id="stat-target-type-badge"
+            style="margin-left:8px; font-size:11px; color:var(--text-secondary)"></span></span>
+        <div class="header-actions">
+          <div id="dashboard-privacy-indicator" class="privacy-badge local">
+            🔒 PROCESSED LOCALLY
+          </div>
+          <button class="btn btn-primary" id="btn-export-report">
+            ⬇ Export Report
+          </button>
+          <button class="btn btn-ghost" id="btn-new-analysis">
+            ↺ New Analysis
+          </button>
+        </div>
+      </div>
+
+      <!-- Universal Security Score Gauge Bar -->
+      <div class="score-gauge-card">
+        <div class="score-dial" id="score-dial">
+          <span class="score-num" id="score-num">100</span>
+          <span class="score-label">SCORE</span>
+        </div>
+        <div class="score-info-wrap">
+          <div class="score-title" id="score-risk-title">LOW RISK</div>
+          <div class="score-sub" id="score-risk-sub">Universal security score calculated from detected threat findings.
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div id="stat-cards">
+        <div class="stat-card info">
+          <div class="stat-label">Total Packets</div>
+          <div class="stat-value" id="stat-total-packets">—</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-label">Analysis Mode</div>
+          <div class="stat-value" id="stat-target-type" style="font-size:15px">—</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-label">Attacks Detected</div>
+          <div class="stat-value" id="stat-total-findings">—</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-label">Extracted IOCs</div>
+          <div class="stat-value" id="stat-total-iocs">—</div>
+        </div>
+        <div class="stat-card crit">
+          <div class="stat-label">Critical</div>
+          <div class="stat-value" id="stat-critical">—</div>
+        </div>
+        <div class="stat-card high-sev">
+          <div class="stat-label">High</div>
+          <div class="stat-value" id="stat-high">—</div>
+        </div>
+        <div class="stat-card med-sev">
+          <div class="stat-label">Medium</div>
+          <div class="stat-value" id="stat-medium">—</div>
+        </div>
+        <div class="stat-card low-sev">
+          <div class="stat-label">Low</div>
+          <div class="stat-value" id="stat-low">—</div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <nav id="tab-bar" role="tablist">
+        <button class="tab-btn active" data-tab="tab-overview" role="tab" id="tab-overview">
+          <span class="tab-icon">📊</span> Overview
+        </button>
+        <button class="tab-btn" data-tab="tab-attacks" role="tab" id="tab-attacks">
+          <span class="tab-icon">⚠</span> Detected Findings
+        </button>
+        <button class="tab-btn" data-tab="tab-iocs" role="tab" id="tab-iocs">
+          <span class="tab-icon">🎯</span> IOCs &amp; Metadata
+        </button>
+        <button class="tab-btn" data-tab="tab-traffic" role="tab" id="tab-traffic">
+          <span class="tab-icon">📈</span> Analytics &amp; Flows
+        </button>
+        <button class="tab-btn" data-tab="tab-report" role="tab" id="tab-report">
+          <span class="tab-icon">📄</span> Security Report
+        </button>
+        <button class="tab-btn" data-tab="tab-monitoring" role="tab" id="tab-monitoring">
+          <span class="tab-icon">⏱</span> Scheduled Monitoring
+        </button>
+      </nav>
+
+      <!-- TAB: OVERVIEW -->
+      <div class="tab-panel active" id="panel-overview" role="tabpanel">
+        <div class="section-card">
+          <div class="section-title">📡 Threat Timeline &amp; Traffic Overview</div>
+          <div class="chart-wrap" style="height:240px">
+            <canvas id="chart-timeline"></canvas>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="section-card">
+            <div class="section-title">🔵 Protocol &amp; Category Distribution</div>
+            <div class="chart-wrap">
+              <canvas id="chart-protocol"></canvas>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-title">🔺 Top Talkers &amp; Entities</div>
+            <div class="chart-wrap-tall" style="height:300px">
+              <canvas id="chart-talkers"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ATTACKS / FINDINGS -->
+      <div class="tab-panel" id="panel-attacks" role="tabpanel">
+        <div id="findings-list"></div>
+      </div>
+
+      <!-- TAB: IOCS & METADATA -->
+      <div class="tab-panel" id="panel-iocs" role="tabpanel">
+        <div class="section-card">
+          <div class="section-title">🎯 Extracted Indicators of Compromise (IOCs)</div>
+          <div class="two-col" style="margin-top:12px">
+            <div>
+              <h4 style="color:var(--green); margin-bottom:8px">IP Addresses &amp; Hostnames</h4>
+              <div id="ioc-ips-list">No IPs extracted</div>
+            </div>
+            <div>
+              <h4 style="color:var(--green); margin-bottom:8px">Extracted URLs &amp; Links</h4>
+              <div id="ioc-urls-list">No URLs extracted</div>
+            </div>
+          </div>
+          <div style="margin-top:20px">
+            <h4 style="color:var(--green); margin-bottom:8px">File Hashes &amp; Technical Artifacts</h4>
+            <div id="ioc-hashes-list">No hashes computed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: TRAFFIC / ANALYTICS -->
+      <div class="tab-panel" id="panel-traffic" role="tabpanel">
+        <div class="section-card">
+          <div class="section-title">🕸 Network Flow Diagram &amp; Entity Map</div>
+          <div id="network-svg-wrap">
+            <svg id="network-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SECURITY REPORT -->
+      <div class="tab-panel" id="panel-report" role="tabpanel">
+        <div class="section-card">
+          <div class="section-title">📄 Downloadable Security Report</div>
+          <p style="color:var(--text-secondary); margin-bottom:16px">
+            Export full executive report with security score, findings breakdown, mitigations, and extracted IOCs.
+          </p>
+          <button class="btn btn-primary" id="btn-export-report-tab">
+            ⬇ Export PDF Security Report
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB: SCHEDULED MONITORING -->
+      <div class="tab-panel" id="panel-monitoring" role="tabpanel">
+        <div class="section-card">
+          <div class="section-title">⏱ Scheduled Security Monitoring Targets</div>
+          <div class="monitor-form-row">
+            <input type="text" id="monitor-target-input" class="monitor-input" placeholder="e.g. company-domain.com" />
+            <button class="btn btn-primary" id="btn-add-monitor-target">➕ Add Monitoring Target</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Target Domain</th>
+                  <th>Status</th>
+                  <th>Frequency</th>
+                  <th>Last Score</th>
+                  <th>Last Scanned</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-monitor-targets">
+                <tr>
+                  <td colspan="6" class="empty-row">Connecting to backend scheduler...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dashboard -->
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-title">⬡ SENTRY CONSOLE</div>
+        <p class="footer-brand-desc">
+          A privacy-preserving, zero-trust Security &amp; Threat Analysis Platform.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="analyze.html" class="footer-link">Analyze Artifact</a></li>
+          <li><a href="about.html" class="footer-link">About &amp; Architecture</a></li>
+          <li><a href="docs.html" class="footer-link">Detection Docs</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Analyzers</div>
+        <ul class="footer-links">
+          <li><a href="analyze.html" class="footer-link">PCAP / PCAPNG</a></li>
+          <li><a href="analyze.html" class="footer-link">PDF Forensics</a></li>
+          <li><a href="analyze.html" class="footer-link">Email Phishing</a></li>
+          <li><a href="analyze.html" class="footer-link">Domain Audit</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Security &amp; Privacy</div>
+        <ul class="footer-links">
+          <li><span style="color:var(--green); font-size:12px">🔒 100% Local Engine</span></li>
+          <li><span style="color:var(--text-muted); font-size:11px">Zero Cloud Telemetry</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Sentry Console · Open Security Platform</div>
+      <div>Built with Vanilla JS &amp; Modern Web APIs</div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script type="module">
+    import { initNavbar } from './src/modules/navbar.js?v=1.0.2';
+    import { initAmbientBg } from './src/modules/ambient_bg.js?v=1.0.1';
+    import { initResultsPage } from './src/results_app.js?v=1.0.2';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try { initNavbar(); } catch (e) { console.warn('[Results] initNavbar error:', e); }
+      try { initAmbientBg(); } catch (e) { console.warn('[Results] initAmbientBg error:', e); }
+      try { await initResultsPage(); } catch (e) { console.warn('[Results] initResultsPage error:', e); }
+    });
+  </script>
+
+</body>
+
+</html>
